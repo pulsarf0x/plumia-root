@@ -4,16 +4,21 @@ namespace Kernel;
 class App
 {
     private $db;
+    private $router;
 
     public function __construct()
     {
         $this->db = new Database();
+        $this->router = new Router();
     }
 
     public function welcome()
     {
         echo 'Hello world.';
     }
+
+
+    // Getters & Setters
 
     /**
      * @return Database
@@ -31,6 +36,22 @@ class App
     {
         $this->db = $db;
         return $this;
+    }
+
+    /**
+     * @return Router
+     */
+    public function getRouter()
+    {
+        return $this->router;
+    }
+
+    /**
+     * @param Router $router
+     */
+    public function setRouter($router)
+    {
+        $this->router = $router;
     }
 
 

@@ -6,9 +6,8 @@ class Autoloader
     static public function register()
     {
         spl_autoload_register(function ($name) {
+            $name = str_replace('\\', DS, $name);
             $file = ROOT . $name . '.php';
-
-            //var_dump($file);
 
             if (file_exists($file))
             {

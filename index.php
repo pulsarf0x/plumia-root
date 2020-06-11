@@ -8,6 +8,4 @@ require_once 'kernel/autoloader.php';
 Autoloader::register();
 
 $app = new App();
-$app->welcome();
-$test = $app->getDb()->query('SELECT * FROM test');
-var_dump($test);
+$app->getRouter()->match('/');
