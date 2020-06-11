@@ -1,10 +1,10 @@
 <?php
 return [
     'dev' => [
-        'host' => '127.0.0.1:8889',
+        'host' => '127.0.0.1',
         'name' => 'root',
         'user' => 'root',
-        'password' => 'root',
+        'password' => '',
     ],
     'prod' => [
         'host' => '127.0.0.1',
