@@ -8,4 +8,4 @@ require_once 'kernel/autoloader.php';
 Autoloader::register();
 
 $app = new App();
-$app->getRouter()->match('/');
+$app->getRouter()->match($_GET['route']);

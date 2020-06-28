@@ -17,10 +17,7 @@ class Router
     {
         $path = ROOT . DS. 'app' . DS . 'Controllers' . DS;
 
-        if (!array_key_exists($route, $this->routes))
-            return false;
-
-        $destination = $this->routes[$route];
+        $destination = $this->browse($route);
 
         $explode = explode('.', $destination);
         $controller = $explode[0];
@@ -37,6 +34,31 @@ class Router
             return false;
 
         return $object->$method();
+    }
+
+    public function browse($route)
+    {
+        $explode = explode('/', $route);
+
+        $routes = $this->routes;
+
+        for ($i = 0 ; $i <= sizeof($explode) ; $i++)
+        {
+            $path = $explode[$i];
+
+            if (!is_array($routes[$path]))
+                return $routes[$path];
+
+            echo '<hr>';
+
+            if (!array_key_exists($path, $routes))
+                return false;
+
+            $routes = $routes[$path];
+
+        }
+
+        return false;
     }
 
     public function redirect($url)

@@ -16,4 +16,22 @@ class Database
     {
         return $this->pdo->query($req)->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+    /**
+     * @return \PDO
+     */
+    public function getPdo()
+    {
+        return $this->pdo;
+    }
+
+    /**
+     * @param \PDO $pdo
+     * @return Database
+     */
+    public function setPdo($pdo)
+    {
+        $this->pdo = $pdo;
+        return $this;
+    }
 }

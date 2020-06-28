@@ -4,6 +4,6 @@ return [
     '/' => 'PublicController.index',
     // Admin section
     'admin' => [
-        '/' => 'AdminController.index',
+        'index' => 'AdminController.index',
     ],
 ];
