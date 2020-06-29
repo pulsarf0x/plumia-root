@@ -3,43 +3,45 @@
 
 namespace Kernel;
 
-
 class Router
 {
     private $routes;
+    private $debug;
 
-    public function __construct()
+    public function __construct($debug = false)
     {
-        $this->routes = include 'config/routes.php';
+        $this->routes = include('config/routes.php');
+        $this->debug = $debug;
     }
 
     public function match($route)
     {
-        $path = ROOT . DS. 'app' . DS . 'Controllers' . DS;
-
         $destination = $this->browse($route);
+
+        if ($this->debug)
+            dump($destination);
 
         $explode = explode('.', $destination);
         $controller = $explode[0];
         $method = $explode[1];
 
-        if (!file_exists($path . $controller . '.php'))
-            return false;
+        if ($this->debug)
+            dump($controller, $method);
 
-        include $path . $controller . '.php';
-
-        $object = new $controller();
-
-        if (!method_exists($controller, $method))
-            return false;
-
-        return $object->$method();
+        return ['controller' => $controller, 'method' => $method];
     }
 
-    public function browse($route)
+    public function parse($url)
     {
-        $explode = explode('/', $route);
+        $params = explode('/', $url);
 
+    }
+
+    public function browse($url)
+    {
+        $explode = explode('/', $url);
+
+        var_dump($explode);
         $routes = $this->routes;
 
         for ($i = 0 ; $i <= sizeof($explode) ; $i++)

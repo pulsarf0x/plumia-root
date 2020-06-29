@@ -1,9 +1,10 @@
 <?php
 return [
+
     // Public section
-    '/' => 'PublicController.index',
+    'index' => 'PublicController.index',
     // Admin section
-    'admin' => [
+    '/admin' => [
         'index' => 'AdminController.index',
     ],
 ];

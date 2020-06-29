@@ -3,13 +3,10 @@ namespace Kernel;
 
 abstract class Controller
 {
-    public function render($view, array $params = null)
-    {
-        echo file_get_contents(ROOT . 'app' . DS . 'views' . DS . $view . '.html');
-    }
+    protected $app;
 
-    public function json()
+    public function __construct(App $app)
     {
-
+        $this->app = $app;
     }
 }
