@@ -8,12 +8,12 @@ class App
     private $router;
     private $response;
 
-    public function __construct($debug = false)
+    public function __construct()
     {
-        $this->db = new Database($debug);
-        $this->request = new Request($debug);
-        $this->router = new Router($debug);
-        $this->response = new Response($debug);
+        $this->db = new Database();
+        $this->request = new Request();
+        $this->router = new Router();
+        $this->response = new Response();
     }
 
     public function init()
@@ -23,6 +23,7 @@ class App
         $controller = $this->loadController($action['controller']);
 
         dump($action['method']);
+
         $object = $controller->{$action['method']}();
     }
 

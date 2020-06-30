@@ -18,15 +18,13 @@ class Router
     {
         $destination = $this->browse($route);
 
-        if ($this->debug)
-            dump($destination);
+        dump($destination);
 
         $explode = explode('.', $destination);
         $controller = $explode[0];
         $method = $explode[1];
 
-        if ($this->debug)
-            dump($controller, $method);
+        dump($controller, $method);
 
         return ['controller' => $controller, 'method' => $method];
     }
@@ -41,7 +39,8 @@ class Router
     {
         $explode = explode('/', $url);
 
-        var_dump($explode);
+        dump($explode);
+
         $routes = $this->routes;
 
         for ($i = 0 ; $i <= sizeof($explode) ; $i++)
