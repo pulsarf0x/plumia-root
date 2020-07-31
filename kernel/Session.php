@@ -11,6 +11,11 @@ class Session
         session_start();
     }
 
+    public function add($key, $value)
+    {
+        $_SESSION[$key] = $value;
+    }
+
     public function setFlash($type, $message)
     {
         $_SESSION['flash'] = array(

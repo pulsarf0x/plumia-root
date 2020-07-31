@@ -1,4 +1,9 @@
 <?php
+/**
+ * @param $var
+ * @return bool
+ * Stylized var_dump()
+ */
 function dump($var)
 {
     if (!DEBUG)
@@ -18,4 +23,12 @@ function dump($var)
     }
 
     echo '</pre>';
+}
+
+/**
+ * Dump and die
+ */
+function dd($var)
+{
+    dump($var); die();
 }

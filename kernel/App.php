@@ -8,6 +8,7 @@ class App
     private $router;
     private $response;
     private $session;
+    private $repository;
 
     public function __construct()
     {
@@ -16,11 +17,14 @@ class App
         $this->router = new Router();
         $this->response = new Response();
         $this->session = new Session();
+
+        $this->init();
     }
 
     public function init()
     {
-        $action = $this->router->match($this->request->getUrl());
+        $action = $this->router->match("index");
+        //$action = $this->router->match($this->request->getUrl());
 
         $controller = $this->loadController($action['controller']);
 
@@ -88,7 +92,6 @@ class App
         $this->request = $request;
         return $this;
     }
-
 
     /**
      * @return Router

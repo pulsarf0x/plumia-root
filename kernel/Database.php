@@ -10,6 +10,17 @@ class Database
         $config = include 'config/database.php';
 
         $this->pdo = new \PDO('mysql:dbname=' . $config['dev']['name'] . ';host=' . $config['dev']['host'], $config['dev']['user'], $config['dev']['password']);
+
+        if (DEBUG)
+        {
+            try {
+                $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            }
+            catch (\Exception $e)
+            {
+                die('Error SQL ' . $e->getLine() . ' : ' . $e->getMessage());
+            }
+        }
     }
 
     public function query($req)

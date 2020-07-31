@@ -1,18 +1,28 @@
 <?php
 namespace Kernel;
 
-abstract class Repository
+class Repository
 {
+    /**
+     * @var \PDO
+     */
     private $db;
 
     const TABLE = '';
     const ENTITY = '';
 
-    public function __construct(Database $db)
+    /**
+     * Repository constructor.
+     * @param \PDO $db
+     */
+    public function __construct(\PDO $db)
     {
-        $this->db = $db->getPdo();
+        $this->db = $db;
     }
 
+    /**
+     * @return array
+     */
     public function findAll()
     {
         $q = $this->db->query('SELECT * FROM ' . static::TABLE);
@@ -21,6 +31,13 @@ abstract class Repository
         return $q->fetchAll();
     }
 
+    /**
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     * @return array
+     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $q = $this->findRequest($criteria, $orderBy, $limit, $offset);
@@ -33,6 +50,10 @@ abstract class Repository
         return $q->fetchAll(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, static::ENTITY);
     }
 
+    /**
+     * @param array $criteria
+     * @return mixed
+     */
     public function findOneBy(array $criteria)
     {
         $q = $this->findRequest($criteria, null, 1);
@@ -45,6 +66,10 @@ abstract class Repository
         return $q->fetch(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, static::ENTITY);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function find($id)
     {
         $id = (int) $id;
@@ -59,6 +84,13 @@ abstract class Repository
         return $q->fetch(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, static::ENTITY);
     }
 
+    /**
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     * @return bool|\PDOStatement
+     */
     public function findRequest(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $sql = 'SELECT * FROM ' . static::TABLE;
@@ -117,16 +149,11 @@ abstract class Repository
         return $q;
     }
 
-    public function create(Entity $entity)
-    {
-        return $entity;
-    }
-
-    public function update(Entity $entity)
-    {
-        return $entity;
-    }
-
+    /**
+     * @param Entity $entity
+     * @return bool
+     * Choose if create or update
+     */
     public function save(Entity $entity)
     {
         if ($entity->isNew())
@@ -134,6 +161,61 @@ abstract class Repository
         else
             $this->update($entity);
 
-        return $entity;
+        return true;
+    }
+
+    /**
+     * @param Entity $entity
+     * @return bool
+     */
+    public function create(Entity $entity)
+    {
+        $attrs = $entity->arraySerialize();
+        unset($attrs['id']);
+
+        $fields = [];
+        foreach ($attrs as $key => $value)
+            $fields[] = $key . ' = :' . $key;
+
+        $sql = "INSERT INTO " . static::TABLE . " SET " . implode(', ', $fields);
+        $q = $this->db->prepare($sql);
+
+        dump($sql);
+
+        foreach ($attrs as  $key => $value)
+            $q->bindValue(':' . $key, $value);
+
+        $q->execute();
+
+        $entity->setId($this->db->lastInsertId());
+
+        return true;
+    }
+
+    /**
+     * @param Entity $entity
+     * @return bool
+     * Update an entity into the database
+     */
+    public function update(Entity $entity)
+    {
+        $fields = [];
+
+        $attrs = $entity->arraySerialize();
+        foreach ($attrs as $key => $value)
+            if ($key != 'id' && $key != 'created_at')
+                $fields[] = "$key = :$key";
+
+
+        $sql = "UPDATE " . static::TABLE . " SET " . implode(', ', $fields) . " WHERE id = :id";
+        $q = $this->db->prepare($sql);
+
+        foreach ($attrs as $key => $value)
+            if ($key != 'created_at')
+                $q->bindValue(':' . $key, $value);
+
+        $q->execute();
+
+        return true;
     }
 }
