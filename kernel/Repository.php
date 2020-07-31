@@ -116,4 +116,24 @@ abstract class Repository
 
         return $q;
     }
+
+    public function create(Entity $entity)
+    {
+        return $entity;
+    }
+
+    public function update(Entity $entity)
+    {
+        return $entity;
+    }
+
+    public function save(Entity $entity)
+    {
+        if ($entity->isNew())
+            $this->create($entity);
+        else
+            $this->update($entity);
+
+        return $entity;
+    }
 }

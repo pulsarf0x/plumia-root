@@ -7,6 +7,7 @@ class App
     private $request;
     private $router;
     private $response;
+    private $session;
 
     public function __construct()
     {
@@ -14,6 +15,7 @@ class App
         $this->request = new Request();
         $this->router = new Router();
         $this->response = new Response();
+        $this->session = new Session();
     }
 
     public function init()
@@ -104,5 +106,39 @@ class App
         $this->router = $router;
     }
 
+    /**
+     * @return Response
+     */
+    public function getResponse()
+    {
+        return $this->response;
+    }
 
+    /**
+     * @param Response $response
+     * @return App
+     */
+    public function setResponse($response)
+    {
+        $this->response = $response;
+        return $this;
+    }
+
+    /**
+     * @return Session
+     */
+    public function getSession()
+    {
+        return $this->session;
+    }
+
+    /**
+     * @param Session $session
+     * @return App
+     */
+    public function setSession($session)
+    {
+        $this->session = $session;
+        return $this;
+    }
 }
