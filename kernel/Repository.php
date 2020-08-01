@@ -180,8 +180,6 @@ class Repository
         $sql = "INSERT INTO " . static::TABLE . " SET " . implode(', ', $fields);
         $q = $this->db->prepare($sql);
 
-        dump($sql);
-
         foreach ($attrs as  $key => $value)
             $q->bindValue(':' . $key, $value);
 

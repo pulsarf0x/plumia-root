@@ -16,6 +16,11 @@ class Session
         $_SESSION[$key] = $value;
     }
 
+    public function remove($key)
+    {
+        unset($_SESSION[$key]);
+    }
+
     public function setFlash($type, $message)
     {
         $_SESSION['flash'] = array(
