@@ -7,7 +7,7 @@ Anyway, I like both of these.
 
 ## Installation
 First, you need to clone this repo.
-After cloned, you need to define database id into config/database.php
+After cloned, you need to define database parameters into config/database.php.
 
 All the routing system is located into config/routes.php. You maybe noticed that the two config files are only in PHP. 
 I'm going to explain you this later here.
@@ -20,6 +20,10 @@ Before take some torches and forks, you have to know that I love Symfony and Lar
 This humble framework can help you to build simple things like landing websites with contact form or blogs. 
 I'm developping this to train my PHP skills to make something strong and simple in full PHP. Without YAML, XML or something else.
 
+## Get Started
+
+
+
 ## Secure
 
 All default requests are made with prepared PDO requests to avoid some SQL injection. It's not perfect but I did my best.
@@ -28,3 +32,10 @@ If you noticed some potentials faults, feel free to let me know with an issue.
 ## Helpers
 
 I made some helpers to increase developpment speed. Once again, feel free to add some functions that can increase your dev style speed.
+
+## Debug
+
+In the index.php, you can find the DEBUG const which unlock dump() and dd() render. 
+You must turn it off when you push your project on production.
+dump() and dd() works like native PHP var_dump() but a with some magic and style. 
+You have to know that dd() run like the Laravel one : render a dump() and die() after it. That's the only difference.

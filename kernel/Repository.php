@@ -1,7 +1,7 @@
 <?php
 namespace Kernel;
 
-class Repository
+abstract class Repository
 {
     /**
      * @var \PDO
@@ -28,7 +28,7 @@ class Repository
         $q = $this->db->query('SELECT * FROM ' . static::TABLE);
         $q->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, static::ENTITY);
 
-        return $q->fetchAll();
+        return $q->fetchAll(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, static::ENTITY);
     }
 
     /**

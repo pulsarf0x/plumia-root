@@ -7,6 +7,10 @@ class PublicController extends Controller
 {
     public function index()
     {
-        return $this->app->render('index');
+        return $this->app->getResponse()
+            ->setLayout('app')
+            ->setView('index')
+            ->render()
+        ;
     }
 }
