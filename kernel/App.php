@@ -45,9 +45,9 @@ class App
         return new $controller($this);
     }
 
-    public function render($view)
+    public function render($view, $data = [])
     {
-        return $this->response->render($view);
+        return $this->response->render($view, $data);
     }
 
     public function welcome()

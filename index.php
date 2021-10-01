@@ -8,7 +8,7 @@ define('VIEWS_DIR', ROOT . 'app' . DS . 'views' . DS);
 define('DEBUG', true);
 
 require_once('kernel/helpers.php');
-require_once('kernel/autoloader.php');
+require_once('kernel/Autoloader.php');
 
 Autoloader::register();
 
