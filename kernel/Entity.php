@@ -40,7 +40,8 @@ abstract class Entity
         {
             $method = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
 
-            $this->$method(trim($value));
+            if (method_exists($this, $method))
+                $this->$method(trim($value));
         }
 
         return $this;

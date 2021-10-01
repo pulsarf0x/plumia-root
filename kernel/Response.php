@@ -4,9 +4,9 @@ namespace Kernel;
 
 class Response
 {
+    private $layout;
     private $view;
     private $params;
-    private $layout;
 
     public function __construct()
     {
@@ -15,9 +15,12 @@ class Response
         $this->layout = 'default';
     }
 
-    public function render($view, $params = false)
+    public function render()
     {
-        echo file_get_contents(VIEWS_DIR . $view . '.html');
+        $layout = file_get_contents(VIEWS_DIR . DS . 'layouts' . DS . $this->layout . '.html');
+        $content = file_get_contents(VIEWS_DIR . $this->view . '.html');
+
+        echo str_replace('@content', $content, $layout);
     }
 
     public function redirect($url)
@@ -41,5 +44,59 @@ class Response
     {
         header("HTTP/1.0 500 Internal Server Error");
         return $this->render('errors/500');
+    }
+
+    /**
+     * @return string
+     */
+    public function getLayout()
+    {
+        return $this->layout;
+    }
+
+    /**
+     * @param string $layout
+     * @return Response
+     */
+    public function setLayout($layout)
+    {
+        $this->layout = $layout;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getView()
+    {
+        return $this->view;
+    }
+
+    /**
+     * @param mixed $view
+     * @return Response
+     */
+    public function setView($view)
+    {
+        $this->view = $view;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParams()
+    {
+        return $this->params;
+    }
+
+    /**
+     * @param mixed $params
+     * @return Response
+     */
+    public function setParams(array $params)
+    {
+        $this->params = $params;
+        return $this;
     }
 }
